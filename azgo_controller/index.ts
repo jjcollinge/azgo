@@ -1,21 +1,38 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import { PushEvent } from "./types/types";
+import simplegit = require('simple-git/promise');
+import tmp = require('tmp');
+
+async function CloneRepoAsync(git: simplegit.SimpleGit, cloneURL: string) {
+    var tmpDir = tmp.dirSync();
+    await git.clone(cloneURL, tmpDir);
+    return tmpDir.name;
+}
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-    context.log('HTTP trigger function processed a request.');
-    const name = (req.query.name || (req.body && req.body.name));
+    context.log('azgo controller triggered.');
 
-    if (name) {
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: "Hello " + (req.query.name || req.body.name)
-        };
-    }
-    else {
-        context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
-        };
-    }
+    // request validation
+
+    let event: PushEvent = JSON.parse(req.body);
+    context.log('commit: ' + event.head_commit);
+
+    // clone HEAD
+    let git: simplegit.SimpleGit = simplegit();
+    let headDir = await CloneRepoAsync(git, 
+        event.repository.clone_url.replace("{/sha}", event.head_commit));
+
+    // clone HEAD~1
+    let baseDir = await CloneRepoAsync(git, 
+        event.repository.clone_url.replace("{/sha}", event.commits[event.commits.length - 2]));
+
+    // get ARM state
+
+    // 3-way merge
+
+    // update ARM
+
+    // update GitHub
 };
 
 export default httpTrigger;

@@ -32,4 +32,24 @@ Git Informer --> Azure Function --> Azure Resource Manager
 ### Secrets
 Secrets are stored in the git repo as a Azure KeyVault versioned reference
 
+## Dev
+
+Create a `.env` file using:
+```
+cat .env.template | sed 's/#.*$//g' | sed '/^$/d' > .env
+```
+Supply values for each of the variables.
+
+Use ngrok to expose local function to GitHub webhook
+```
+ngrok http 7071
+```
+
+Create a new GitHub repo, add a webhook for push events and point it to your ngrok endpoint
+
+Trigger the webhook manually by running:
+```
+./scripts/trigger.sh
+```
+
 

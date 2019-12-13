@@ -7,10 +7,14 @@
     "watch": "tsc -w",
     "prestart": "npm run build",
     "start": "func start",
-    "test": "echo \"No tests yet...\""
+    "test": "echo \"No tests yet...\"",
+    "trigger": "./scripts/trigger.sh"
   },
-  "dependencies": {},
+  "dependencies": {
+    "simple-git": "^1.129.0",
+    "tmp": "^0.1.0"
+  },
   "devDependencies": {
-    "typescript": "^3.3.3"
+    "typescript": "^3.7.3"
   }
 }
