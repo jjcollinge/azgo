@@ -11,13 +11,23 @@ The benefits of doing so include:
 
 ## Design
 
+### GitHub
 GitHub Webhook --> Azure Function --> Azure Resource Manager
 
 1. You make a git commit to your GitHub repository to update a template or configuration
 2. A GitHub webhook is triggered that calls the azgo web server (controller)
 3. The azgo controller clones the git repository at the versioned git commit
 4. The controller then makes a comparision between the state defined in the Git repo and that expressed in the ARM API
-5. For any diverged state, the controller makes the approriate modifications 
+5. For any diverged state, the controller makes the approriate modifications
+
+### Other Git Repos
+Git Informer --> Azure Function --> Azure Resource Manager
+
+1. You make a git commit to your Git repo to update a template of configuration
+2. The Git Informer detects (polling) a new commit and calls the azgo web server (controller)
+3. The azgo controller clones the git repository at the versioned git commit
+4. The controller then makes a comparision between the state defined in the Git repo and that expressed in the ARM API
+5. For any diverged state, the controller makes the approriate modifications
 
 ### Secrets
 Secrets are stored in the git repo as a Azure KeyVault versioned reference
