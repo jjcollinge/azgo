@@ -15,7 +15,7 @@
     "@azure/ms-rest-nodeauth": "^3.0.3",
     "arm-template-merge": "^1.1.4",
     "glob": "^7.1.6",
-    "simple-git": "^1.129.0",
+    "simple-git": "^3.5.0",
     "tmp": "^0.1.0"
   },
   "devDependencies": {
